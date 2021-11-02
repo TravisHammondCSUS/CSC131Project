@@ -5,9 +5,11 @@ import java.net.*;
 
 public class ClientHandler implements Runnable {
     private final Socket clientSocket;
+    private World world;
 
-    public ClientHandler(Socket socket)
+    public ClientHandler(Socket socket, World world)
     {
+    	this.world = world;
         clientSocket = socket;
         log("Connected");
     }

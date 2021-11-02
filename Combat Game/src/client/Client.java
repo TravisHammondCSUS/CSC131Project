@@ -42,7 +42,7 @@ public class Client {
 		return port;
 	}
 
-	public String getIpAddress() {
+	public String getIPAddress() {
 		return ipAddress;
 	}
 	

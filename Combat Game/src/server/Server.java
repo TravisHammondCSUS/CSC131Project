@@ -24,7 +24,7 @@ public class Server {
 		try {
 			while (true) {
 				Socket client = serverSocket.accept();
-				new Thread(new ClientHandler(client)).start();
+				new Thread(new ClientHandler(client, world)).start();
 			}
 		} catch (IOException e) {
             e.printStackTrace();
