@@ -17,7 +17,7 @@ public static void main(String[] args) {
 
 //@SuppressWarnings("serial")
 public class Keyboard extends JPanel { //Hopefully we could get rid of this JPanel, it's ugly.
-	
+
 	public Keyboard() {
 		KeyListener listener = new MyKeyListener();
 		addKeyListener(listener);
