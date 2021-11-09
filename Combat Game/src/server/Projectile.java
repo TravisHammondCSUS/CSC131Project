@@ -1,5 +1,62 @@
 package server;
 
-public class Projectile {
+import java.awt.Point;
 
+public class Projectile extends Entity{
+
+	private double angle;	
+	private double distance;
+	private double damage;
+	private int team;
+
+	public Projectile(char symbol, int team, double distance, double angle, double damage) {
+		super(symbol);
+		this.team = team;
+		this.distance = distance;
+		this.angle = angle;
+		this.damage = damage;
+	}
+
+	@Override
+	public boolean handleCollision(Entity entity){
+		
+		switch (entity.ENTITY_TYPE) {
+			case "BASE_CHARACTER":
+				this.distance = 0.0;
+				return true;
+			case "PROJECTILE":
+				this.distance = 0.0;
+				return false;
+			case "BARRIER":
+				this.distance = 0.0;
+				return false;
+			default: 
+				return false;
+		}
+	}
+
+	public int getTeam(){
+		return this.team;
+	}
+	public double getDistance(){
+		return this.distance;
+	}
+	public double getAngle(){
+		return this.angle;
+	}
+	public double getDamage(){
+		return this.damage;
+	}
+
+	/**
+	 * 
+	 * @return The direction in which the projectile should go in
+	 */
+	public Point move(){
+		Point move = new Point();
+		double x = Math.cos(angle);
+		double y = Math.sin(angle);
+		move.setLocation(x, y);
+		return move;
+	} 
 }
