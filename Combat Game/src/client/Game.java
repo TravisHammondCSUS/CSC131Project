@@ -1,56 +1,121 @@
 package client;
 
+import java.awt.Canvas;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.Graphics;
+import java.awt.GraphicsConfiguration;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.image.VolatileImage;
+
 public class Game {
 	
-	private int FPS = 20;
-	private double averageFPS;
+	private static Frame frame;
+	private static Canvas canvas;
+	///
+	private static long lastFPSCheck = 0;
+	private static int currentFPS = 0;
+	private static int totalFrames = 0 ;
 	
-	public void run() {
-		
-		long startTime;
-		long URDTimeMillis;
-		long waitTime;
-		long totalTime = 0;
-		long targetTime = 1000 / FPS;
-		
-		int frameCount = 0;
-		int maxFrameCount = 20;
+	private static int targetFPS = 120;
+	private static int targetTime = 1000000000 / targetFPS;
+	
+	
+	public static void run() {
 		
 		// GAME LOOP
 		while(true) {
+			long startTime = System.nanoTime();	
 			
-			startTime = System.nanoTime();	// Get current system time in nanoseconds
+			//FPS Counter
+			totalFrames++;
+			if(System.nanoTime() > lastFPSCheck + 1000000000) {
+				lastFPSCheck = System.nanoTime();
+				currentFPS = totalFrames;
+				totalFrames = 0;
+			}
 			
 			gameUpdate();
 			gameRender();
-		
-			URDTimeMillis = (System.nanoTime() - startTime) / 1000000;
-			// /1000000 to get milliseconds
-			waitTime = targetTime - URDTimeMillis;
 			
-			try {
-				Thread.sleep(waitTime);
-			}
-			catch(Exception e) {
-				
+			// FPS Capping
+			long totalTime = System.nanoTime() - startTime;
+			if(totalTime < targetTime) {
+				try {
+					Thread.sleep((targetTime - totalTime) / 1000000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			
-			// FPS Counter
-			totalTime += System.nanoTime() - startTime;
-			frameCount++;
-			if(frameCount == maxFrameCount) {
-				averageFPS = 1000.0 / ((totalTime / frameCount) / 1000000);
-				frameCount = 0;
-				totalTime = 0;
-			}
 		}
 	}
 	
-	public void gameUpdate() {
+	public static void gameUpdate() {
 		// Waiting for other stuffs
+		
 	}
 	
-	public void gameRender() {
-		// Waiting for other stuffs
+	public static void gameRender() {
+		// Stuffs for testing
+		GraphicsConfiguration gc = canvas.getGraphicsConfiguration();
+		VolatileImage vImage = gc.createCompatibleVolatileImage(800, 500);
+	
+		Graphics g = vImage.getGraphics();
+		
+		g.setColor(Color.black);
+		g.fillRect(0, 0, 800, 500);		//Set background to black
+		g.setColor(Color.gray);
+		g.drawRect(10, 10, 100, 100);	//Draw a rect for testing
+		
+		
+		// Draw FPS Counter
+		g.setColor(Color.gray);
+		g.drawString(String.valueOf(currentFPS), 5, 495);
+		g.dispose();
+		
+		g = canvas.getGraphics();
+		g.drawImage(vImage, 0, 0, 800, 500, null);
+		
+		g.dispose();	
+	}
+	
+	
+	public static void main(String[] arg) {
+		//Call MENU
+		Menu a = new Menu();
+		a.printMenu();
+		if(a.input() == 1) {
+			init();
+		}
+		else			
+			System.exit(0);
+	}
+	
+	public static void init() {
+		frame = new Frame();
+		canvas = new Canvas();
+		
+		canvas.setPreferredSize(new Dimension(800, 500));
+		
+		frame.add(canvas);
+		frame.pack();
+		frame.setResizable(false);
+		frame.setVisible(true);
+		
+		frame.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				Game.quit();
+			}
+		});
+		
+		run();
+	}
+	
+	public static void quit() {
+		System.exit(0);
 	}
 }
