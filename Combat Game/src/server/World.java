@@ -23,16 +23,12 @@ public class World {
 		entity.move(dx, dy); //not handling coheision or out of bound
 	}
 	
-	public void handleClientAttack() {
-		
-	}
-	
 	public int checkWon() {
-		
+		return 0;
 	}
 	
-	public void getCurrentMap() {
-		
+	public char[][] getCurrentMap() {
+		return currentMap;	
 	}
 	
 }
