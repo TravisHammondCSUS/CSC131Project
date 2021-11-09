@@ -19,7 +19,7 @@ public class Keyboard extends JPanel { //Hopefully we could get rid of this JPan
 	}
 
 	public class MyKeyListener implements KeyListener {
-		private HashSet<Character> keysDown = new HashSet<Character>();
+		private HashSet<java.lang.Character> keysDown = new HashSet<java.lang.Character>();
 		@Override
 		public void keyTyped(KeyEvent e) {
 		}
