@@ -2,14 +2,8 @@ package client;
 
 import java.util.*;
 public class Menu {
-	private int choice;
 	public Menu() {
-		this.choice = 0;
-	}
-	public void handleMainMenu() {
-		printMenu();
-		input();
-	}
+   }
 	public void printMenu() {
 		System.out.println("-------------------------");
 		System.out.println("| WELCOME TO OUR GAME!! |");
@@ -17,7 +11,7 @@ public class Menu {
 		System.out.println("(1) JOIN GAME");
 		System.out.println("(2) QUIT");
 	}
-	public void input() {
+	public int input() {
 		Scanner kb = new Scanner(System.in);
 		int choice = -1;
 		while( choice < 1 || choice > 2) {
@@ -29,20 +23,12 @@ public class Menu {
 				System.out.println("INVALID SELECTION, PLEASE TRY AGAIN.");
 			}
 		}
-		switch(choice) {
-			case 1:
-				this.choice = 1;
-				break;
-			case 2:
-				this.choice = 2;
-				System.out.println("THANKS FOR PLAYING OUR GAME\nCOME BACK SOON!!");
-				break;
-			default:
-				System.out.println("AN UNKNOWN ERROR HAS OCCURED");
-				break;
-		}
-	}
-	public int getChoice() {
-		return choice;
+      if(choice == 1){
+         return 1;
+      }
+      else if(choice == 2){
+         return 2;
+      }
+      return 0;
 	}
 }
