@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class World {
-	private ArrayList<Entity> entities; //dsfs
+	private ArrayList<Entity> entities;
 	private char [][] defaultMap, currentMap;
 	private int team1Score, team2Score;
 	
@@ -20,7 +20,7 @@ public class World {
 	}
 	
 	public void handleClientMovement(Entity entity, int dx, int dy) {
-		entity.move(dx, dy); //not handling coheision or out of boundce
+		entity.move(dx, dy); //not handling coheision or out of bound
 	}
 	
 	public void handleClientAttack() {
