@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class World {
-	private ArrayList<Entity> entities;
+	private ArrayList<Entity> entities; //dsfs
 	private char [][] defaultMap, currentMap;
 	private int team1Score, team2Score;
 	
