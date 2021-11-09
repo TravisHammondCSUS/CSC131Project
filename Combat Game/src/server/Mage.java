@@ -5,7 +5,8 @@ public class Mage {
 	/*
 
 	Mage: 
-
+	
+	Attack Damage: Average
 	Attack Rate: Slower than Archer 
 	Attack Distance: Longer than Archer
 	Health: Lower than Rogue

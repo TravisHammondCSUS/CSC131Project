@@ -5,8 +5,9 @@ public class Warrior {
 	/*
 
 	Warrior: 
-
-	Attack Speed: Slow attack speed
+	
+	Attack Damage: Low Attack damage
+	Attack Rate: Slow attack speed
 	Attack Distance: Melee range 
 	Health: High health
 	Defense: High Defense

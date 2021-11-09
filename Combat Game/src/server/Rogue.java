@@ -5,10 +5,11 @@ public class Rogue {
 	/*
 
 	Rogue: 
-
+	
+	Attack Damage: High attack damage
 	Attack Rate: Fast attack speed
 	Attack Distance: Melee range
-	Health: Average health
+	Health: Low Health
 	Defense: Low Defense
 	Skin: R
 
