@@ -20,7 +20,7 @@ public class Projectile extends Entity{
 	@Override
 	public boolean handleCollision(Entity entity){
 		
-		switch (entity.ENTITY_TYPE) {
+		switch (ENTITY_TYPE) {
 			case "BASE_CHARACTER":
 				this.distance = 0.0;
 				return true;
