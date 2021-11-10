@@ -24,7 +24,7 @@ public class Entity {
     }
 
     public Point getPosition(){
-        return position;
+        return this.position;
     }
 
     public void move(int dx, int dy){
