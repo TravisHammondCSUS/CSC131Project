@@ -50,13 +50,16 @@ public class Projectile extends Entity{
 
 	/**
 	 * 
-	 * @return The direction in which the projectile should go in
+	 * @return The next position in which the projectile will be in.
 	 */
 	public Point move(){
 		Point move = new Point();
-		double x = Math.cos(angle);
-		double y = Math.sin(angle);
-		move.setLocation(x, y);
+		double dx = Math.cos(angle);
+		double dy = Math.sin(angle);
+		move.setLocation(
+			this.position.getX() + dx,
+			this.position.getY() + dy
+			);
 		return move;
 	} 
 }
