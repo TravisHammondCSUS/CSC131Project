@@ -14,9 +14,16 @@ public class Entity {
     public char getSymbol(){
         return this.symbol;
     }
-
+    
+    /**
+     * 
+     * @param entity
+     * @return 
+     * true -> it can't move forward, 
+     * false -> it can move forward
+     */
     public boolean handleCollision(Entity entity){
-        return true;
+        return false;
     }
     
     public void setPosition(int x, int y){

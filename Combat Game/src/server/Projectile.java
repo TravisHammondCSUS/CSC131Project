@@ -22,14 +22,11 @@ public class Projectile extends Entity{
 		
 		switch (ENTITY_TYPE) {
 			case "BASE_CHARACTER":
-				this.distance = 0.0;
 				return true;
 			case "PROJECTILE":
-				this.distance = 0.0;
 				return false;
 			case "BARRIER":
-				this.distance = 0.0;
-				return false;
+				return true;
 			default: 
 				return false;
 		}
