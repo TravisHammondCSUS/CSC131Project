@@ -8,6 +8,6 @@ public class Barrier extends Entity {
 
 	@Override
 	public boolean handleCollision(Entity entity){
-		return false;
+		return true;
 	}
 }
