@@ -25,7 +25,7 @@ public class Keyboard extends JPanel { //Hopefully we could get rid of this JPan
 		}
 		@Override
 		public void keyPressed(KeyEvent e) {
-			keysDown.add(new Character(KeyEvent.getKeyText(e.getKeyCode()).charAt(0)));
+			keysDown.add(KeyEvent.getKeyText(e.getKeyCode()).charAt(0));
 			//if(keysDown!=null) System.out.println(keysDown); //debugging purposes
 			//System.out.println(isKeyDown('A')); //sample debug for isKeyDown
 		}
