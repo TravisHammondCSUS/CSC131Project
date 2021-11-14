@@ -4,7 +4,6 @@ import java.awt.Point;
 
 public class Entity {
     protected char symbol;
-    public static final String ENTITY_TYPE = "ENTITY";
     protected Point position;
 
     public Entity(char symbol, Point position){
@@ -40,6 +39,7 @@ public class Entity {
         return this.position;
     }
 
-
-
+	public String getEntityType() {
+		return "ENTITY";
+	}
 }

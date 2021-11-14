@@ -1,5 +1,6 @@
 package client;
 
+import java.awt.Point;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
@@ -57,7 +58,8 @@ public class Game {
 				totalFrames = 0;
 			}
 			
-			currentMap = client.update("MOVE 1 1");
+			Point movement = character.move();
+			currentMap = client.update("MOVE " + movement.x + " " + movement.y);
 			Graphics.updateConsole(currentMap, "FPS: " + currentFPS, "");
 			
 			// FPS Capping

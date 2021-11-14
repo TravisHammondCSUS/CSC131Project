@@ -1,3 +1,4 @@
+package client;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -7,15 +8,20 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 
-
 //@SuppressWarnings("serial")
 public class Keyboard extends JPanel { //Hopefully we could get rid of this JPanel, it's ugly.
-	
+	private KeyListener listener;
 	
 	public Keyboard() {
-		KeyListener listener = new MyKeyListener();
+		listener = new MyKeyListener();
 		addKeyListener(listener);
 		setFocusable(true);
+		
+		JFrame frame = new JFrame("KeyboardFocus");
+		frame.add(this);
+		frame.setSize(200, 200);
+		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	public class MyKeyListener implements KeyListener {
@@ -34,19 +40,15 @@ public class Keyboard extends JPanel { //Hopefully we could get rid of this JPan
 			keysDown.remove(KeyEvent.getKeyText(e.getKeyCode()).charAt(0));
 		}
 		public Boolean isKeyDown(char target) {
-			if(keysDown.contains(target)) return true; 
-			return false;
+			return keysDown.contains(target);
 		}
 	}
-}
 
-/*
-public static void main(String[] args) {
-		JFrame frame = new JFrame("KeyboardFocus");
-		Keyboard keyboard = new Keyboard();
-		frame.add(keyboard);
-		frame.setSize(200, 200);
-		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public Boolean isKeyDown(char target) {
+		return ((MyKeyListener) listener).isKeyDown(target);
 	}
-*/
+	
+	public static void main(String[] args) {
+
+	}
+}

@@ -3,14 +3,13 @@ package server;
 import java.awt.Point;
 
 public class Projectile extends Entity{
-
 	private double angle;	
 	private double distance;
 	private double damage;
 	private int team;
 
-	public Projectile(char symbol, int team, double distance, double angle, double damage) {
-		super(symbol);
+	public Projectile(char symbol, Point position, int team, double distance, double angle, double damage) {
+		super(symbol, position);
 		this.team = team;
 		this.distance = distance;
 		this.angle = angle;
@@ -19,8 +18,7 @@ public class Projectile extends Entity{
 
 	@Override
 	public boolean handleCollision(Entity entity){
-		
-		switch (ENTITY_TYPE) {
+		switch (entity.getEntityType()) {
 			case "BASE_CHARACTER":
 				return true;
 			case "PROJECTILE":
@@ -58,5 +56,10 @@ public class Projectile extends Entity{
 			this.position.getY() + dy
 			);
 		return move;
-	} 
+	}
+	
+	@Override
+	public String getEntityType() {
+		return "PROJECTILE";
+	}
 }

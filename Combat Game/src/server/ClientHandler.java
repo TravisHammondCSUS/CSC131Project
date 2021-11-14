@@ -8,13 +8,13 @@ import java.util.Scanner;
 public class ClientHandler implements Runnable {
     private final Socket clientSocket;
     private World world;
-    private Entity entity;
+    private BaseCharacter character;
 
     public ClientHandler(Socket socket, World world)
     {
     	this.world = world;
-    	entity = new Entity('#', new Point(0, 0));
-    	world.handleClientMovement(entity, 0, 0);
+    	character = new BaseCharacter('#', new Point(0, 0));
+    	world.handleClientMovement(character, 0, 0);
         clientSocket = socket;
         log("Connected");
     }
@@ -29,7 +29,7 @@ public class ClientHandler implements Runnable {
     		scanner.next();
     		int dx = scanner.nextInt();
     		int dy = scanner.nextInt();
-    		world.handleClientMovement(entity, dx, dy);
+    		world.handleClientMovement(character, dx, dy);
     	} else {
     		response = "INVALID REQUEST";
     		log(response);
