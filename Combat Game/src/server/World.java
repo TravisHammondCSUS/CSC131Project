@@ -1,4 +1,5 @@
 package server;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -6,9 +7,12 @@ public class World {
 	private ArrayList<Entity> entities;
 	private char [][] defaultMap, currentMap;
 	private int team1Score, team2Score;
+	private int worldBoundX, worldBoundY;
 	
 	public World (char[][] map) {
 		defaultMap = map;
+		worldBoundX = defaultMap.length;
+		worldBoundY = defaultMap[0].length;
 		resetMap();
 	}
 	
@@ -20,9 +24,19 @@ public class World {
 	}
 	
 	public void handleClientMovement(Entity entity, int dx, int dy) {
-		entity.move(dx, dy); //not handling coheision or out of bound
+		Point oldPosition = entity.getPosition();
+		if (oldPosition.x + dx >= worldBoundX) {
+			dx = 0;
+		}
+		if (oldPosition.y + dy >= worldBoundY) {
+			dy = 0;
+		}
+		Point newPosition = entity.move(dx, dy); //not handling collisions or out of bound
+		//currentMap[oldPosition.x][oldPosition.y] = '0';
+		currentMap[newPosition.x][newPosition.y] = entity.getSymbol();
+		System.out.println("" + dy + " " + dx);
 	}
-	
+
 	public int checkWon() {
 		return 0;
 	}

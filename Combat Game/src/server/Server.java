@@ -45,7 +45,14 @@ public class Server {
 	}
 	
 	public static void main(String[] args) throws IOException {
-		Server server = new Server(new World(), 1234);
+		char[][] map = new char[40][];
+    	for (int i = 0; i < 40; i++) {
+    		map[i] = new char[160];
+    		for (int j = 0; j < 160; j++) {
+        		map[i][j] = '~';
+        	}
+    	}
+		Server server = new Server(new World(map), 1234);
 		server.start();
 	}
 }

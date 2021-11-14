@@ -1,30 +1,50 @@
 package client;
 
-import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Frame;
-import java.awt.Graphics;
-import java.awt.GraphicsConfiguration;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.image.VolatileImage;
+import java.io.IOException;
+import java.net.UnknownHostException;
 
 public class Game {
+	private static Game instance;
 	
-	private static Frame frame;
-	private static Canvas canvas;
-	///
-	private static long lastFPSCheck = 0;
-	private static int currentFPS = 0;
-	private static int totalFrames = 0 ;
+	private Client client;
+	private char[][] currentMap;
+	private Character character;
 	
-	private static int targetFPS = 120;
-	private static int targetTime = 1000000000 / targetFPS;
+	private long lastFPSCheck = 0;
+	private int currentFPS = 0;
+	private int totalFrames = 0 ;
 	
+	private int targetFPS = 10;
+	private int targetTime = 1000000000 / targetFPS;
 	
-	public static void run() {
-		
+	private Game(String ipAddress, int port) throws IOException {
+		for (int i = 1; i <= 30; i++) {
+			try {
+				client = new Client(ipAddress, port);
+				break;
+			} catch (Exception e) {
+				System.err.println("Failed to connect to server trying again.");
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+				System.err.println("Trying Again. Attempt " + i + " out of 30");
+			}
+		}
+		character = new Character();
+		currentMap = client.update("NULL");
+	}
+	
+	public static Game getInstance(String ipAddress, int port) throws IOException {
+		if (instance == null) {
+			instance = new Game(ipAddress, port);
+		}
+		return instance;
+	}
+	
+	public void run() throws IOException, InterruptedException {
 		// GAME LOOP
 		while(true) {
 			long startTime = System.nanoTime();	
@@ -37,8 +57,8 @@ public class Game {
 				totalFrames = 0;
 			}
 			
-			gameUpdate();
-			gameRender();
+			currentMap = client.update("MOVE 1 1");
+			Graphics.updateConsole(currentMap, "FPS: " + currentFPS, "");
 			
 			// FPS Capping
 			long totalTime = System.nanoTime() - startTime;
@@ -54,68 +74,20 @@ public class Game {
 		}
 	}
 	
-	public static void gameUpdate() {
-		// Waiting for other stuffs
-		
-	}
-	
-	public static void gameRender() {
-		// Stuffs for testing
-		GraphicsConfiguration gc = canvas.getGraphicsConfiguration();
-		VolatileImage vImage = gc.createCompatibleVolatileImage(800, 500);
-	
-		Graphics g = vImage.getGraphics();
-		
-		g.setColor(Color.black);
-		g.fillRect(0, 0, 800, 500);		//Set background to black
-		g.setColor(Color.gray);
-		g.drawRect(10, 10, 100, 100);	//Draw a rect for testing
-		
-		
-		// Draw FPS Counter
-		g.setColor(Color.gray);
-		g.drawString(String.valueOf(currentFPS), 5, 495);
-		g.dispose();
-		
-		g = canvas.getGraphics();
-		g.drawImage(vImage, 0, 0, 800, 500, null);
-		
-		g.dispose();	
-	}
-	
-	
-	public static void main(String[] arg) {
-		//Call MENU
+	public static void main(String[] arg) throws IOException {
+		Game game = Game.getInstance("localhost", 1234);
 		Menu a = new Menu();
 		a.printMenu();
 		if(a.input() == 1) {
-			init();
-		}
-		else			
-			System.exit(0);
-	}
-	
-	public static void init() {
-		frame = new Frame();
-		canvas = new Canvas();
-		
-		canvas.setPreferredSize(new Dimension(800, 500));
-		
-		frame.add(canvas);
-		frame.pack();
-		frame.setResizable(false);
-		frame.setVisible(true);
-		
-		frame.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				Game.quit();
+			try {
+				game.run();
+			} catch (IOException | InterruptedException e) {
+				System.err.println("Crashing");
 			}
-		});
-		
-		run();
+		}
 	}
 	
-	public static void quit() {
+	public void quit() {
 		System.exit(0);
 	}
 }

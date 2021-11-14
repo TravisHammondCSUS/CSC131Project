@@ -20,14 +20,27 @@ public class Client {
 		in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 	}
 	
-	public short[][] update(String actions) throws IOException {
+	public char[][] update(String actions) throws IOException {
 		// Need to adjust to send proper update
 		out.println(actions);
 		out.flush();
-		
-		// Need to adjust to receive proper update
-		System.out.println(in.readLine());
-		return new short[1][1];
+
+		String response = in.readLine();
+		if (response.equals("INVALID REQUEST")) {
+			throw new IOException("INVALID REQUEST");
+		}
+		Scanner scanner = new Scanner(response);
+		int height = scanner.nextInt();
+		int width = scanner.nextInt();
+		char[][] map = new char[height][width];
+		String mapStr = scanner.nextLine().strip();
+
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				map[i][j] = mapStr.charAt(i * width + j);
+			}
+		}
+		return map;
 	}
 	
 	public boolean disconnect() throws IOException {

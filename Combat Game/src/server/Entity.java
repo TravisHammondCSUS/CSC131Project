@@ -7,8 +7,9 @@ public class Entity {
     public static final String ENTITY_TYPE = "ENTITY";
     protected Point position;
 
-    public Entity(char symbol){
+    public Entity(char symbol, Point position){
         this.symbol = symbol;
+        this.position = position;
     }
 
     public char getSymbol(){
@@ -34,8 +35,9 @@ public class Entity {
         return this.position;
     }
 
-    public void move(int dx, int dy){
+    public Point move(int dx, int dy){
         this.position.translate(dx, dy);
+        return this.position;
     }
 
 
