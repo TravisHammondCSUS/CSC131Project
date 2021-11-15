@@ -79,8 +79,8 @@ public class Game {
 	public static void main(String[] arg) throws IOException {
 		Game game = Game.getInstance("localhost", 1234);
 		Menu a = new Menu();
-		a.printMenu();
-		if(a.input() == 1) {
+		int input = a.handleMainMenu();
+		if(input == 1) {
 			try {
 				game.run();
 			} catch (IOException | InterruptedException e) {

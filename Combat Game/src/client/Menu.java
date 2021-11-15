@@ -3,7 +3,12 @@ package client;
 import java.util.*;
 public class Menu {
 	public Menu() {
-   }
+	}
+	public int handleMainMenu() {
+		printMenu();
+		int in = input();
+		return in;
+	}
 	public void printMenu() {
 		System.out.println("-------------------------");
 		System.out.println("| WELCOME TO OUR GAME!! |");
