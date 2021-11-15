@@ -31,14 +31,22 @@ public class Keyboard extends JPanel { //Hopefully we could get rid of this JPan
 		}
 		@Override
 		public void keyPressed(KeyEvent e) {
-			keysDown.add(KeyEvent.getKeyText(e.getKeyCode()).charAt(0));
-			//if(keysDown!=null) System.out.println(keysDown); //debugging purposes
-			//System.out.println(isKeyDown('A')); //sample debug for isKeyDown
+			String key = KeyEvent.getKeyText(e.getKeyCode());
+			if (key.length() > 1) {
+				key = key.toLowerCase();
+			}
+			keysDown.add(key.charAt(0));
 		}
+
 		@Override
 		public void keyReleased(KeyEvent e) {
-			keysDown.remove(KeyEvent.getKeyText(e.getKeyCode()).charAt(0));
+			String key = KeyEvent.getKeyText(e.getKeyCode());
+			if (key.length() > 1) {
+				key = key.toLowerCase();
+			}
+			keysDown.remove(key.charAt(0));
 		}
+
 		public Boolean isKeyDown(char target) {
 			return keysDown.contains(target);
 		}
@@ -49,6 +57,12 @@ public class Keyboard extends JPanel { //Hopefully we could get rid of this JPan
 	}
 	
 	public static void main(String[] args) {
-
+		Keyboard kb = new Keyboard();
+		try {
+			Thread.sleep(1000000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
