@@ -8,12 +8,16 @@ public class Character {
 	private final char BACKWARD_KEY = 'S';
 	private final char RIGHTWARD_KEY = 'A';
 	private final char LEFTWARD_KEY = 'D';
-	
+	private final char ATTACK_FORWARD_KEY = 'u';
+    private final char ATTACK_BACKWARD_KEY = 'd';
+    private final char ATTACK_RIGHTWARD_KEY = 'l';
+    private final char ATTACK_LEFTWARD_KEY = 'r';
 	private int team;
+	private int final TICKS_PER_MOVEMENT = 5;
 	
-	public Character() {
+	public Character(int team) {
 		keyboard = new Keyboard();
-		team = 0;
+		this.team = team;
 	}
 	
 	public Point move() {
@@ -36,4 +40,27 @@ public class Character {
 		else
 			return new Point(dx, -dy);
 	}
+	
+	public Point attack() {
+		int dx = 0;
+		int dy = 0;
+		if (keyboard.isKeyDown(ATTACK_FORWARD_KEY)) {
+			dx -= 1;
+		}
+		if (keyboard.isKeyDown(ATTACK_BACKWARD_KEY)) {
+			dx += 1;
+		}
+		if (keyboard.isKeyDown(ATTACK_RIGHTWARD_KEY)) {
+			dy -= 1;
+		}
+		if (keyboard.isKeyDown(ATTACK_LEFTWARD_KEY)) {
+			dy += 1;
+		}
+		if (team == 0)
+			return new Point(dx, dy);
+		else
+			return new Point(dx, -dy);
+	}
+
+	
 }
