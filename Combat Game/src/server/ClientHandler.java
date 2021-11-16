@@ -13,7 +13,7 @@ public class ClientHandler implements Runnable {
     public ClientHandler(Socket socket, World world)
     {
     	this.world = world;
-    	character = new BaseCharacter('#', new Point(0, 0));
+    	character = new BaseCharacter('#', new Point(0, 0), 0);
     	world.handleClientMovement(character, 0, 0);
         clientSocket = socket;
         log("Connected");
@@ -29,7 +29,14 @@ public class ClientHandler implements Runnable {
     		scanner.next();
     		int dx = scanner.nextInt();
     		int dy = scanner.nextInt();
+    		scanner.close();
     		world.handleClientMovement(character, dx, dy);
+    	} else if (line.contains("TEAM")) {
+    		Scanner scanner = new Scanner(line);
+    		scanner.next();
+    		int team = scanner.nextInt();
+    		scanner.close();
+    		character.setTeam(team);
     	} else {
     		response = "INVALID REQUEST";
     		log(response);

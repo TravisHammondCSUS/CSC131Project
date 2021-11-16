@@ -3,8 +3,11 @@ package server;
 import java.awt.Point;
 
 public class BaseCharacter extends Entity {
-	public BaseCharacter(char symbol, Point position){
+	private int team;
+
+	public BaseCharacter(char symbol, Point position, int team){
 		super(symbol, position);
+		this.team = team;
 	}
 	
 	@Override
@@ -25,5 +28,13 @@ public class BaseCharacter extends Entity {
 	@Override
 	public String getEntityType() {
 		return "BASE_CHARACTER";
+	}
+
+	public int getTeam() {
+		return team;
+	}
+
+	public void setTeam(int team) {
+		this.team = team;
 	}
 }

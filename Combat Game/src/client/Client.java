@@ -43,6 +43,20 @@ public class Client {
 		return map;
 	}
 	
+	public int requestTeam(int team) throws IOException {
+		out.println("TEAM " + team);
+		out.flush();
+		
+		String response = in.readLine();
+		if (response.equals("INVALID REQUEST")) {
+			throw new IOException("INVALID REQUEST");
+		}
+		
+		Scanner scanner = new Scanner(response);
+		team = scanner.nextInt();
+		return team;
+	}
+	
 	public boolean disconnect() throws IOException {
 		// Need to adjust to send proper disconnect
 		out.println("disconnect");

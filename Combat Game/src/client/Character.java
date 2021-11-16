@@ -12,11 +12,19 @@ public class Character {
     private final char ATTACK_BACKWARD_KEY = 'd';
     private final char ATTACK_RIGHTWARD_KEY = 'l';
     private final char ATTACK_LEFTWARD_KEY = 'r';
+	private final int TICKS_PER_MOVEMENT = 5;
 	private int team;
-	private int final TICKS_PER_MOVEMENT = 5;
 	
 	public Character(int team) {
+		this.team = team;
 		keyboard = new Keyboard();
+	}
+	
+	public int getTeam() {
+		return team;
+	}
+	
+	public void setTeam(int team) {
 		this.team = team;
 	}
 	
@@ -38,7 +46,7 @@ public class Character {
 		if (team == 0)
 			return new Point(dx, dy);
 		else
-			return new Point(dx, -dy);
+			return new Point(-dx, dy);
 	}
 	
 	public Point attack() {

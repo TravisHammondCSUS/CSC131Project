@@ -7,6 +7,7 @@ import java.net.UnknownHostException;
 public class Game {
 	private static Game instance;
 	
+	private Menu menu;
 	private Client client;
 	private char[][] currentMap;
 	private Character character;
@@ -34,8 +35,9 @@ public class Game {
 				System.err.println("Trying Again. Attempt " + i + " out of 30");
 			}
 		}
-		character = new Character();
-		currentMap = client.update("NULL");
+		menu = new Menu();
+		character = new Character(-1);
+		setCurrentMap(client.update("NULL"));
 	}
 	
 	public static Game getInstance(String ipAddress, int port) throws IOException {
@@ -46,7 +48,15 @@ public class Game {
 	}
 	
 	public void run() throws IOException, InterruptedException {
-		// GAME LOOP
+		int input = menu.handleMainMenu();
+		if (input == 1) {
+			int team = client.requestTeam(1);
+			character.setTeam(team);
+			gameLoop();
+		}
+	}
+	
+	public void gameLoop() throws IOException, InterruptedException {
 		while(true) {
 			long startTime = System.nanoTime();	
 			
@@ -59,7 +69,7 @@ public class Game {
 			}
 			
 			Point movement = character.move();
-			currentMap = client.update("MOVE " + movement.x + " " + movement.y);
+			setCurrentMap(client.update("MOVE " + movement.x + " " + movement.y));
 			Graphics.updateConsole(currentMap, "FPS: " + currentFPS, "");
 			
 			// FPS Capping
@@ -76,16 +86,26 @@ public class Game {
 		}
 	}
 	
+	private void setCurrentMap(char[][] map) {
+		if (character.getTeam() != 0) {
+			// Flip map
+			char[][] flippedMap = new char[map.length][map[0].length];
+			for (int i = 0; i < map.length; i++) {
+				for (int j = 0; j < map[0].length; j++) {
+					flippedMap[map.length - i - 1][j] = map[i][j];
+				}
+			}
+			map = flippedMap;
+		}
+		currentMap = map;
+	}
+	
 	public static void main(String[] arg) throws IOException {
 		Game game = Game.getInstance("localhost", 1234);
-		Menu a = new Menu();
-		int input = a.handleMainMenu();
-		if(input == 1) {
-			try {
-				game.run();
-			} catch (IOException | InterruptedException e) {
-				System.err.println("Crashing");
-			}
+		try {
+			game.run();
+		} catch (IOException | InterruptedException e) {
+			System.err.println("Crashing");
 		}
 	}
 	
