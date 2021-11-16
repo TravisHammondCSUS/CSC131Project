@@ -1,3 +1,4 @@
+package client;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -7,51 +8,61 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 
-
 //@SuppressWarnings("serial")
 public class Keyboard extends JPanel { //Hopefully we could get rid of this JPanel, it's ugly.
-	
+	private KeyListener listener;
 	
 	public Keyboard() {
-		KeyListener listener = new MyKeyListener();
+		listener = new MyKeyListener();
 		addKeyListener(listener);
 		setFocusable(true);
-	}
-
-	public class MyKeyListener implements KeyListener {
-		//private HashSet<Character> keysDown;
-		private HashSet<Character> keysDown = new HashSet<Character>();
-		@Override
-		public void keyTyped(KeyEvent e) {
-		}
-
-		@Override
-		public void keyPressed(KeyEvent e) {
-			System.out.println("keyPressed="+KeyEvent.getKeyText(e.getKeyCode())); //debugging purposes
-			keysDown.add(KeyEvent.getKeyText(e.getKeyCode()).charAt(0));
-			if(keysDown!=null) System.out.println(keysDown);
-			//System.out.println(isKeyDown('A')); sample debug
-		}
-
-		@Override
-		public void keyReleased(KeyEvent e) {
-			System.out.println("keyReleased="+KeyEvent.getKeyText(e.getKeyCode())); //debugging purposes
-			keysDown.remove(KeyEvent.getKeyText(e.getKeyCode()).charAt(0));
-		}
-		public Boolean isKeyDown(char target) {
-			if(keysDown.contains(target)) return true;
-			return false;
-		}
-	}
-}
-
-/*
-public static void main(String[] args) {
+		
 		JFrame frame = new JFrame("KeyboardFocus");
-		Keyboard keyboard = new Keyboard();
-		frame.add(keyboard);
+		frame.add(this);
 		frame.setSize(200, 200);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-*/
+
+	public class MyKeyListener implements KeyListener {
+		private HashSet<java.lang.Character> keysDown = new HashSet<java.lang.Character>();
+		@Override
+		public void keyTyped(KeyEvent e) {
+		}
+		@Override
+		public void keyPressed(KeyEvent e) {
+			String key = KeyEvent.getKeyText(e.getKeyCode());
+			if (key.length() > 1) {
+				key = key.toLowerCase();
+			}
+			keysDown.add(key.charAt(0));
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			String key = KeyEvent.getKeyText(e.getKeyCode());
+			if (key.length() > 1) {
+				key = key.toLowerCase();
+			}
+			keysDown.remove(key.charAt(0));
+		}
+
+		public Boolean isKeyDown(char target) {
+			return keysDown.contains(target);
+		}
+	}
+
+	public Boolean isKeyDown(char target) {
+		return ((MyKeyListener) listener).isKeyDown(target);
+	}
+	
+	public static void main(String[] args) {
+		Keyboard kb = new Keyboard();
+		try {
+			Thread.sleep(1000000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}
