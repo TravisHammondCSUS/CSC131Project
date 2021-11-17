@@ -11,6 +11,10 @@ public class Entity {
         this.position = position;
     }
 
+	public void onServerTick() {
+		// Does nothing for Entity
+	}
+    
     public char getSymbol(){
         return this.symbol;
     }

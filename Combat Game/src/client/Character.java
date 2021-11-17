@@ -69,6 +69,4 @@ public class Character {
 		else
 			return new Point(dx, -dy);
 	}
-
-	
 }

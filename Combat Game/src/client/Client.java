@@ -34,6 +34,7 @@ public class Client {
 		int width = scanner.nextInt();
 		char[][] map = new char[height][width];
 		String mapStr = scanner.nextLine().strip();
+		scanner.close();
 
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
@@ -54,6 +55,7 @@ public class Client {
 		
 		Scanner scanner = new Scanner(response);
 		team = scanner.nextInt();
+		scanner.close();
 		return team;
 	}
 	

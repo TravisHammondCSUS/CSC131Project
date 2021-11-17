@@ -2,7 +2,7 @@ package server;
 
 import java.awt.Point;
 public class BaseCharacter extends Entity {
-	private int team;
+	private int team, lastAttackTickCount;
 	private double health, defense, attackDmg, attackRate, attackDistance;
 	
 	public BaseCharacter(char symbol, Point position, int team, double health, double defense, double attackDmg, double attackRate, double attackDistance) {
@@ -16,11 +16,16 @@ public class BaseCharacter extends Entity {
 	}
 	
 	@Override
+	public void onServerTick() {
+		++lastAttackTickCount;
+	}
+	
+	@Override
 	public boolean handleCollision(Entity entity){
 		System.out.println(entity.getEntityType());
 		switch (entity.getEntityType()) {
 			case "BASE_CHARACTER":
-				return false;
+				return true;
 			case "PROJECTILE":
 				double damageTaken = ((Projectile) entity).getDamage() - defense;
 				if (damageTaken > 0) {
@@ -32,6 +37,16 @@ public class BaseCharacter extends Entity {
 			default: 
 				return false;
 		}
+	}
+	
+	public Projectile attack(int dx, int dy) {
+		Projectile proj = null;
+		if (lastAttackTickCount > attackRate) {
+			lastAttackTickCount = 0;
+			proj = new Projectile('0', position, team, attackDistance, attackDmg, dx, dy);
+			proj.move();
+		}
+		return proj;
 	}
 	
 	@Override

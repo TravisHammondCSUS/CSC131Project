@@ -3,19 +3,26 @@ package server;
 import java.awt.Point;
 
 public class Projectile extends Entity{
-	private double angle;	
 	private double distance;
 	private double damage;
 	private int team;
+	private int dx, dy;
+	private int tick;
 
-	public Projectile(char symbol, Point position, int team, double distance, double angle, double damage) {
+	public Projectile(char symbol, Point position, int team, double distance, double damage, int dx, int dy) {
 		super(symbol, position);
 		this.team = team;
 		this.distance = distance;
-		this.angle = angle;
 		this.damage = damage;
+		this.dx = dx;
+		this.dy = dy;
 	}
 
+	@Override
+	public void onServerTick() {
+		++tick;
+	}
+	
 	@Override
 	public boolean handleCollision(Entity entity){
 		switch (entity.getEntityType()) {
@@ -36,27 +43,23 @@ public class Projectile extends Entity{
 	public double getDistance(){
 		return this.distance;
 	}
-	public double getAngle(){
-		return this.angle;
+	
+	public int getDx(){
+		return dx;
 	}
+	
+	public int getDy(){
+		return dy;
+	}
+	
 	public double getDamage(){
 		return this.damage;
 	}
 
-	/**
-	 * 
-	 * @return The next position in which the projectile will be in.
-	 */
-	public Point move(){
-		Point move = new Point();
-		double dx = Math.cos(angle);
-		double dy = Math.sin(angle);
-		move.setLocation(
-			this.position.getX() + dx,
-			this.position.getY() + dy
-			);
-		return move;
-	}
+    public Point move(){
+        this.position.translate(dx, dy);
+        return this.position;
+    }
 	
 	@Override
 	public String getEntityType() {

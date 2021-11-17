@@ -13,7 +13,7 @@ public class ClientHandler implements Runnable {
     public ClientHandler(Socket socket, World world)
     {
     	this.world = world;
-    	character = new BaseCharacter('#', new Point(0, 0), 0);
+    	character = null;
     	world.handleClientMovement(character, 0, 0);
         clientSocket = socket;
         log("Connected");
@@ -22,25 +22,34 @@ public class ClientHandler implements Runnable {
     public String handleClientMessage(String line) {
     	String response = "";
     	log(line);
+
+    	Scanner scanner = new Scanner(line);
+    	String cmd = scanner.next();
+    	
     	if (line.equals("NULL")) {
     		// Do nothing
-    	} else if (line.contains("MOVE")) {
-    		Scanner scanner = new Scanner(line);
-    		scanner.next();
+    	} else if (line.equals("MOVE")) {
     		int dx = scanner.nextInt();
     		int dy = scanner.nextInt();
-    		scanner.close();
     		world.handleClientMovement(character, dx, dy);
-    	} else if (line.contains("TEAM")) {
-    		Scanner scanner = new Scanner(line);
-    		scanner.next();
+    	} else if (line.equals("ATTACK")) {
+    		int dx = scanner.nextInt();
+    		int dy = scanner.nextInt();
+    		Projectile proj = character.attack(dx, dy);
+    		if (proj != null)
+    			world.addEntity(proj);
+    	} else if (line.equals("TEAM")) {
     		int team = scanner.nextInt();
-    		scanner.close();
     		character.setTeam(team);
+    	} else if (line.equals("CHARACTER"))
+    	{
+    		String characterType = scanner.next();
+    		character = new BaseCharacter('#', new Point(0, 0), 0, 10, 1, 2, 1, 2);
     	} else {
     		response = "INVALID REQUEST";
     		log(response);
     	}
+    	scanner.close();
     	
     	char[][] map = world.getCurrentMap();
 		response = "" + map.length + " " + map[0].length + " ";
