@@ -6,6 +6,7 @@ import java.net.*;
 import java.util.Scanner;
 
 import client.Client;
+import client.Graphics;
 
 public class Server {
 	private int port;
@@ -20,8 +21,38 @@ public class Server {
 		serverSocket.setReuseAddress(true);
 	}
 	
+	private static class Ticker implements Runnable {
+		private World world;
+		
+	    public Ticker(World world)
+	    {
+	    	this.world = world;
+	    }
+	    
+		public void run() {
+			int fps = 120;
+			long loopTime = 1000 / fps;
+			while(true) {
+				long startTime = System.nanoTime();	
+				world.tick();
+				long totalTime = (System.nanoTime() - startTime) / 1000000;
+				if(totalTime < loopTime) {
+					try {
+						Thread.sleep(loopTime - totalTime);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
+			}
+		}
+	}
+	
 	public void start() {
 		log("Starting");
+		new Thread(new Ticker(world)).start();
+		
 		try {
 			while (true) {
 				Socket client = serverSocket.accept();

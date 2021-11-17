@@ -37,7 +37,8 @@ public class Game {
 		}
 		menu = new Menu();
 		character = new Character(-1);
-		setCurrentMap(client.update("NULL"));
+		setCurrentMap(client.requestMap());
+		client.requestCharacter("BASE");
 	}
 	
 	public static Game getInstance(String ipAddress, int port) throws IOException {
@@ -50,8 +51,8 @@ public class Game {
 	public void run() throws IOException, InterruptedException {
 		int input = menu.handleMainMenu();
 		if (input == 1) {
-			int team = client.requestTeam(1);
-			character.setTeam(team);
+			client.requestTeam(1);
+			character.setTeam(1);
 			gameLoop();
 		}
 	}
@@ -69,7 +70,12 @@ public class Game {
 			}
 			
 			Point movement = character.move();
-			setCurrentMap(client.update("MOVE " + movement.x + " " + movement.y));
+			Point attack = character.attack();
+			setCurrentMap(client.requestMapMoveAttack(
+					movement.x, movement.y,
+					attack.x, attack.y
+					
+			));
 			Graphics.updateConsole(currentMap, "FPS: " + currentFPS, "");
 			
 			// FPS Capping

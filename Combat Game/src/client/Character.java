@@ -6,12 +6,12 @@ public class Character {
 	private Keyboard keyboard;
 	private final char FORWARD_KEY = 'W';
 	private final char BACKWARD_KEY = 'S';
-	private final char RIGHTWARD_KEY = 'A';
-	private final char LEFTWARD_KEY = 'D';
+	private final char RIGHTWARD_KEY = 'D';
+	private final char LEFTWARD_KEY = 'A';
 	private final char ATTACK_FORWARD_KEY = 'u';
     private final char ATTACK_BACKWARD_KEY = 'd';
-    private final char ATTACK_RIGHTWARD_KEY = 'l';
-    private final char ATTACK_LEFTWARD_KEY = 'r';
+    private final char ATTACK_RIGHTWARD_KEY = 'r';
+    private final char ATTACK_LEFTWARD_KEY = 'l';
 	private final int TICKS_PER_MOVEMENT = 5;
 	private int team;
 	
@@ -38,10 +38,10 @@ public class Character {
 			dx += 1;
 		}
 		if (keyboard.isKeyDown(RIGHTWARD_KEY)) {
-			dy -= 1;
+			dy += 1;
 		}
 		if (keyboard.isKeyDown(LEFTWARD_KEY)) {
-			dy += 1;
+			dy -= 1;
 		}
 		if (team == 0)
 			return new Point(dx, dy);
@@ -59,14 +59,14 @@ public class Character {
 			dx += 1;
 		}
 		if (keyboard.isKeyDown(ATTACK_RIGHTWARD_KEY)) {
-			dy -= 1;
+			dy += 1;
 		}
 		if (keyboard.isKeyDown(ATTACK_LEFTWARD_KEY)) {
-			dy += 1;
+			dy -= 1;
 		}
 		if (team == 0)
 			return new Point(dx, dy);
 		else
-			return new Point(dx, -dy);
+			return new Point(-dx, dy);
 	}
 }

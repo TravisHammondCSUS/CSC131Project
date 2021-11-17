@@ -26,38 +26,51 @@ public class ClientHandler implements Runnable {
     	Scanner scanner = new Scanner(line);
     	String cmd = scanner.next();
     	
-    	if (line.equals("NULL")) {
-    		// Do nothing
-    	} else if (line.equals("MOVE")) {
+    	if (cmd.equals("MAP")) {
+        	char[][] map = world.getCurrentMap();
+    		response = "" + map.length + " " + map[0].length + " ";
+    		for (int i = 0; i < map.length; i++) {
+    			for (int j = 0; j < map[0].length; j++) {
+    				response += map[i][j];
+    			}
+    		}
+    	} else if (cmd.equals("MOVE")) {
     		int dx = scanner.nextInt();
     		int dy = scanner.nextInt();
     		world.handleClientMovement(character, dx, dy);
-    	} else if (line.equals("ATTACK")) {
+    		response = "SUCCESFUL";
+    	} else if (cmd.equals("ATTACK")) {
     		int dx = scanner.nextInt();
     		int dy = scanner.nextInt();
-    		Projectile proj = character.attack(dx, dy);
-    		if (proj != null)
-    			world.addEntity(proj);
-    	} else if (line.equals("TEAM")) {
+    		if (dx != 0 || dy != 0) {
+	    		Projectile proj = character.attack(dx, dy);
+	    		if (proj != null) {
+	    			world.addEntity(proj);
+	    			response = "SUCCESFUL";
+	    		} else {
+	    			response = "FAILED";
+	    		}
+    		} else {
+    			response = "SUCCESFUL";
+    		}
+    	} else if (cmd.equals("TEAM")) {
     		int team = scanner.nextInt();
     		character.setTeam(team);
-    	} else if (line.equals("CHARACTER"))
+    		response = "SUCCESFUL";
+    	} else if (cmd.equals("CHARACTER"))
     	{
     		String characterType = scanner.next();
     		character = new BaseCharacter('#', new Point(0, 0), 0, 10, 1, 2, 1, 2);
+    		response = "SUCCESFUL";
+    	} else if (cmd.equals("NULL"))
+    	{
+    		// Nothing
     	} else {
     		response = "INVALID REQUEST";
     		log(response);
     	}
     	scanner.close();
-    	
-    	char[][] map = world.getCurrentMap();
-		response = "" + map.length + " " + map[0].length + " ";
-		for (int i = 0; i < map.length; i++) {
-			for (int j = 0; j < map[0].length; j++) {
-				response += map[i][j];
-			}
-		}
+    	log(response);
     	return response;
     }
     

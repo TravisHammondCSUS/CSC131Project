@@ -43,7 +43,10 @@ public class BaseCharacter extends Entity {
 		Projectile proj = null;
 		if (lastAttackTickCount > attackRate) {
 			lastAttackTickCount = 0;
-			proj = new Projectile('0', position, team, attackDistance, attackDmg, dx, dy);
+			proj = new Projectile(
+					'0', new Point(position.x, position.y), team,
+					attackDistance, attackDmg, dx, dy
+			);
 			proj.move();
 		}
 		return proj;

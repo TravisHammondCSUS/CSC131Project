@@ -29,7 +29,22 @@ public class World {
 		}
 	}
 	
+	public void tick() {
+		// NEED TO USE ARRAYLIST FOR EFFICENCY
+		
+		
+		for(int i = 0; i < defaultMap.length; i++) {
+			for(int j = 0; j < defaultMap[0].length; j++) {
+				if (entityMap[i][j] != null) {
+					entityMap[i][j].onServerTick();
+				}
+			}
+		}
+	}
+	
 	public void handleClientMovement(Entity entity, int dx, int dy) {
+		if (entity == null)
+			return;
 		Point position = entity.getPosition();
 		entityMap[position.x][position.y] = null;
 		currentMap[position.x][position.y] = defaultMap[position.x][position.y];
