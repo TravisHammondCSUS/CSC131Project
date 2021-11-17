@@ -21,6 +21,7 @@ class EntityTest {
 		assertEquals(test.getEntityType(), "ENTITY");
 		assertEquals(test.getSymbol(), 'f');
 		assertEquals(test.handleCollision(dummy), false);
+		test.onServerTick();
 	}
 
 }

@@ -16,6 +16,7 @@ public class Projectile extends Entity{
 		this.damage = damage;
 		this.dx = dx;
 		this.dy = dy;
+		this.tick = 0;
 	}
 
 	@Override
