@@ -16,8 +16,8 @@ class ProjectileTest {
 		
 		Point testingP = new Point(1,1);
 		Entity testingEntity = new Entity('e', testingP);
-		Projectile test = new Projectile('t', testingP, 1, 3.0, 5.0, 10, 11);
-		BaseCharacter testBaseCharacter = new BaseCharacter('c', testingP, 1, 1, 1, 1, 1, 1);
+		Projectile test = new Projectile('t', testingP, 1, 3.0, 5.0, 10, 11, 9);
+		BaseCharacter testBaseCharacter = new BaseCharacter('c', testingP, 1, 1, 1, 1, 1, 1, 1, 1);
 		Barrier testBarrier = new Barrier('/', testingP);
 
 		test.onServerTick();

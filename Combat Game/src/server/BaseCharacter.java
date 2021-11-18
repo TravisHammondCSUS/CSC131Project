@@ -2,22 +2,35 @@ package server;
 
 import java.awt.Point;
 public class BaseCharacter extends Entity {
-	private int team, lastAttackTickCount;
-	private double health, defense, attackDmg, attackRate, attackDistance;
+	private int team, attackSpeed, attackRate, dx, dy, ticksPerMovement;
+	private long ticks;
+	private double health, maxHealth, defense, attackDmg, attackDistance;
 	
-	public BaseCharacter(char symbol, Point position, int team, double health, double defense, double attackDmg, double attackRate, double attackDistance) {
+	public BaseCharacter(char symbol, Point position, int ticksPerMovement, int team, double health, double defense, double attackDmg, int attackRate, int attackSpeed, double attackDistance) {
 		super(symbol, position);
+		this.ticksPerMovement = ticksPerMovement;
 		this.team = team;
 		this.health = health;
+		this.maxHealth = health;
 		this.defense = defense;
 		this.attackDmg = attackDmg;
 		this.attackRate = attackRate;
 		this.attackDistance = attackDistance;
+		this.attackSpeed = attackSpeed;
+		dx = 0;
+		dy = 0;
 	}
 	
 	@Override
 	public void onServerTick() {
-		++lastAttackTickCount;
+		if (health < 0) {
+			setPosition(0, 0);
+			health = maxHealth;
+		}
+		if (ticks % ticksPerMovement == 0) {
+			move();
+		}
+		++ticks;
 	}
 	
 	@Override
@@ -28,6 +41,7 @@ public class BaseCharacter extends Entity {
 				return true;
 			case "PROJECTILE":
 				double damageTaken = ((Projectile) entity).getDamage() - defense;
+				System.out.println("" + damageTaken);
 				if (damageTaken > 0) {
 					setHealth(getHealth() - damageTaken);
 				}
@@ -41,13 +55,11 @@ public class BaseCharacter extends Entity {
 	
 	public Projectile attack(int dx, int dy) {
 		Projectile proj = null;
-		if (lastAttackTickCount > attackRate) {
-			lastAttackTickCount = 0;
+		if (ticks % attackRate == 0) {
 			proj = new Projectile(
 					'0', new Point(position.x, position.y), team,
-					attackDistance, attackDmg, dx, dy
+					attackDistance, attackDmg, attackSpeed, dx, dy
 			);
-			proj.move();
 		}
 		return proj;
 	}
@@ -80,4 +92,14 @@ public class BaseCharacter extends Entity {
 	public void setDefense(double defense) {
 		this.defense = defense;
 	}
+	
+	public void setMovement(int dx, int dy) {
+		this.dx = dx;
+		this.dy = dy;
+	}
+	
+    public Point move(){
+        this.position.translate(dx, dy);
+        return this.position;
+    }
 }

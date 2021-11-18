@@ -6,33 +6,39 @@ public class Projectile extends Entity{
 	private double distance;
 	private double damage;
 	private int team;
+	private int ticksPerMovement;
 	private int dx, dy;
-	private int tick;
+	private long ticks;
 
-	public Projectile(char symbol, Point position, int team, double distance, double damage, int dx, int dy) {
+	public Projectile(char symbol, Point position, int team, double distance, double damage, int ticksPerMovement, int dx, int dy) {
 		super(symbol, position);
 		this.team = team;
 		this.distance = distance;
 		this.damage = damage;
+		this.ticksPerMovement = ticksPerMovement;
 		this.dx = dx;
 		this.dy = dy;
-		this.tick = 0;
+		this.ticks = 0;
 	}
 
 	@Override
 	public void onServerTick() {
-		++tick;
-		move();
+		if (ticks % ticksPerMovement == 0) {
+			move();
+		}
+		++ticks;
 	}
 	
 	@Override
 	public boolean handleCollision(Entity entity){
 		switch (entity.getEntityType()) {
 			case "BASE_CHARACTER":
+				distance = 0;
 				return true;
 			case "PROJECTILE":
 				return false;
 			case "BARRIER":
+				distance = 0;
 				return true;
 			default: 
 				return false;
@@ -59,9 +65,19 @@ public class Projectile extends Entity{
 	}
 
     public Point move(){
-        this.position.translate(dx, dy);
+    	distance -= Math.sqrt((dx * dx) + (dy * dy));
+    	if (distance < 0) {
+    		distance = 0;
+    	} else {
+    		this.position.translate(dx, dy);
+    	}
         return this.position;
     }
+    
+	@Override
+    public boolean needsDestroyed() {
+		return distance == 0;
+	}
 	
 	@Override
 	public String getEntityType() {

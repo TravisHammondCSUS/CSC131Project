@@ -35,7 +35,7 @@ public class ClientHandler implements Runnable {
     	} else if (cmd.equals("MOVE")) {
     		int dx = scanner.nextInt();
     		int dy = scanner.nextInt();
-    		world.handleClientMovement(character, dx, dy);
+    		character.setMovement(dx, dy);
     		response = "SUCCESFUL";
     	} else if (cmd.equals("ATTACK")) {
     		int dx = scanner.nextInt();
@@ -58,7 +58,7 @@ public class ClientHandler implements Runnable {
     	} else if (cmd.equals("CHARACTER"))
     	{
     		String characterType = scanner.next();
-    		character = new BaseCharacter('#', new Point(0, 0), 0, 10, 1, 2, 0, 20);
+    		character = new BaseCharacter('#', new Point(0, 0), 4, 0, 10, 1, 2, 10, 5, 10);
     		world.addEntity(character);
     		response = "SUCCESFUL";
     	} else if (cmd.equals("NULL"))
@@ -69,7 +69,7 @@ public class ClientHandler implements Runnable {
     		log(response);
     	}
     	scanner.close();
-    	log(response);
+    	//log(response);
     	return response;
     }
     

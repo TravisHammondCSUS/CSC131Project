@@ -15,7 +15,7 @@ public class Game {
 	private int currentFPS = 0;
 	private int totalFrames = 0 ;
 	
-	private int targetFPS = 10;
+	private int targetFPS = 30;
 	private int targetTime = 1000000000 / targetFPS;
 	
 	private Game(String ipAddress, int port) throws IOException {

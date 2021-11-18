@@ -46,4 +46,8 @@ public class Entity {
 	public String getEntityType() {
 		return "ENTITY";
 	}
+	
+	public boolean needsDestroyed() {
+		return false;
+	}
 }

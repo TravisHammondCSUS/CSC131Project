@@ -24,7 +24,7 @@ public class Server {
 	    }
 	    
 		public void run() {
-			int fps = 12;
+			int fps = 30;
 			long loopTime = 1000 / fps;
 			while(true) {
 				long startTime = System.nanoTime();	
@@ -37,6 +37,8 @@ public class Server {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+				} else {
+					log("Server is running behind");
 				}
 				
 			}
@@ -66,7 +68,7 @@ public class Server {
 		log("Stopped");
 	}
 	
-	public void log(String text) {
+	public static void log(String text) {
 		System.out.println("[Server] " + text);
 	}
 	
