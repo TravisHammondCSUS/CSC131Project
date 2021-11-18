@@ -2,7 +2,6 @@ package client;
 
 import java.awt.Point;
 import java.io.IOException;
-import java.net.UnknownHostException;
 
 public class Game {
 	private static Game instance;

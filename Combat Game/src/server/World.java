@@ -1,7 +1,6 @@
 package server;
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class World {
 	private ArrayList<Entity> entities;
@@ -17,6 +16,7 @@ public class World {
 		worldBoundX = defaultMap.length;
 		worldBoundY = defaultMap[0].length;
 		resetMap();
+		entities = new ArrayList<Entity>();
 		entityMap = new Entity[worldBoundX][worldBoundY];
 	}
 	
@@ -30,21 +30,32 @@ public class World {
 	}
 	
 	public void tick() {
-		// NEED TO USE ARRAYLIST FOR EFFICENCY
-		
-		
-		for(int i = 0; i < defaultMap.length; i++) {
-			for(int j = 0; j < defaultMap[0].length; j++) {
-				if (entityMap[i][j] != null) {
-					entityMap[i][j].onServerTick();
+		for(int i = entities.size() - 1; i >= 0; i--) {
+			Entity entity = entities.get(i);
+			if (entity == null) {
+				entities.remove(i);
+			} else {
+				Point position = entity.getPosition();
+				position = new Point(position.x, position.y);
+				entityMap[position.x][position.y] = null;
+				//currentMap[position.x][position.y] = defaultMap[position.x][position.y];
+				entity.onServerTick();
+				Point newPosition = entity.getPosition();
+				if (newPosition.x >= worldBoundX || newPosition.x < 0) {
+					newPosition.x = position.x;
 				}
+				if (newPosition.y >= worldBoundY || newPosition.y < 0) {
+					newPosition.y = position.y;
+				}
+				
+				
+				entityMap[newPosition.x][newPosition.y] = entity;
+				currentMap[newPosition.x][newPosition.y] = entity.getSymbol();
 			}
 		}
 	}
 	
 	public void handleClientMovement(Entity entity, int dx, int dy) {
-		if (entity == null)
-			return;
 		Point position = entity.getPosition();
 		entityMap[position.x][position.y] = null;
 		currentMap[position.x][position.y] = defaultMap[position.x][position.y];
@@ -84,7 +95,7 @@ public class World {
 				}
 			}
 		}
-		position = entity.move(dx, dy); //not handling collisions
+		position = entity.move(dx, dy);
 		entityMap[position.x][position.y] = entity;
 		currentMap[position.x][position.y] = entity.getSymbol();
 	}
@@ -99,6 +110,7 @@ public class World {
 	
 	public void addEntity(Entity entity) {
 		Point position = entity.getPosition();
+		entities.add(entity);
 		entityMap[position.x][position.y] = entity;
 		currentMap[position.x][position.y] = entity.getSymbol();
 	}

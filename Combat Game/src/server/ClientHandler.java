@@ -13,8 +13,6 @@ public class ClientHandler implements Runnable {
     public ClientHandler(Socket socket, World world)
     {
     	this.world = world;
-    	character = null;
-    	world.handleClientMovement(character, 0, 0);
         clientSocket = socket;
         log("Connected");
     }
@@ -60,7 +58,8 @@ public class ClientHandler implements Runnable {
     	} else if (cmd.equals("CHARACTER"))
     	{
     		String characterType = scanner.next();
-    		character = new BaseCharacter('#', new Point(0, 0), 0, 10, 1, 2, 1, 2);
+    		character = new BaseCharacter('#', new Point(0, 0), 0, 10, 1, 2, 0, 20);
+    		world.addEntity(character);
     		response = "SUCCESFUL";
     	} else if (cmd.equals("NULL"))
     	{

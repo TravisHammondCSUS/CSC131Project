@@ -25,6 +25,7 @@ public class Menu {
             System.out.println("\nInvalid Selection Please Try Again.\n");
          }
       }
+      kb.close();
       if(choice == 1){
          return 1;
       }
@@ -51,6 +52,7 @@ public class Menu {
             System.out.println("\nInvalid Selection Please Try Again.\n");
          }
       }
+      kb.close();
       if(choice == 1){
          return 1;
       }
@@ -80,6 +82,7 @@ public class Menu {
          c = kb.next();
          System.out.println();
       }
+      kb.close();
       return c.toUpperCase();
    } 
 }

@@ -21,6 +21,7 @@ public class Projectile extends Entity{
 	@Override
 	public void onServerTick() {
 		++tick;
+		move();
 	}
 	
 	@Override

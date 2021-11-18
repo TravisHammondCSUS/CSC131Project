@@ -29,7 +29,7 @@ public class BaseCharacter extends Entity {
 			case "PROJECTILE":
 				double damageTaken = ((Projectile) entity).getDamage() - defense;
 				if (damageTaken > 0) {
-					health -= damageTaken;
+					setHealth(getHealth() - damageTaken);
 				}
 				return false;
 			case "BARRIER":
@@ -63,5 +63,21 @@ public class BaseCharacter extends Entity {
 
 	public void setTeam(int team) {
 		this.team = team;
+	}
+
+	public double getHealth() {
+		return health;
+	}
+
+	public void setHealth(double health) {
+		this.health = health;
+	}
+	
+	public double getDefense() {
+		return defense;
+	}
+
+	public void setDefense(double defense) {
+		this.defense = defense;
 	}
 }

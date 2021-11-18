@@ -3,19 +3,13 @@ package server;
 import java.awt.Point;
 import java.io.*;
 import java.net.*;
-import java.util.Scanner;
-
-import client.Client;
-import client.Graphics;
 
 public class Server {
-	private int port;
 	private ServerSocket serverSocket;
 	private World world;
 	
 	public Server(World world, int port) throws IOException {
 		this.world = world;
-		this.port = port;
 		
 		serverSocket = new ServerSocket(port);
 		serverSocket.setReuseAddress(true);
@@ -30,7 +24,7 @@ public class Server {
 	    }
 	    
 		public void run() {
-			int fps = 120;
+			int fps = 12;
 			long loopTime = 1000 / fps;
 			while(true) {
 				long startTime = System.nanoTime();	
