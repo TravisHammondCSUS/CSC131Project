@@ -20,31 +20,4 @@ public class Graphics {
         }
         System.out.print(CLEAR + worldStr);
     }
-    
-    public static void main(String[] arg) throws IOException, InterruptedException {
-    	char[][] map = new char[40][];
-    	for (int i = 0; i < 40; i++) {
-    		map[i] = new char[160];
-    		for (int j = 0; j < 160; j++) {
-        		map[i][j] = '0';
-        	}
-    	}
-    	
-    	int i = 1;
-    	while (true) {
-    		map[(i-1) / 160][(i-1) % 160] = '0';
-    		map[i / 160][i % 160] = '#';
-    		Graphics.updateConsole(map);
-    		if (i >= 40*160 - 1)
-    			i = 1;
-    		else
-    			i++;
-    		try {
-				Thread.sleep(50);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-    	}
-    }
 }

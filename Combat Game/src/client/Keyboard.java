@@ -55,14 +55,4 @@ public class Keyboard extends JPanel { //Hopefully we could get rid of this JPan
 	public Boolean isKeyDown(char target) {
 		return ((MyKeyListener) listener).isKeyDown(target);
 	}
-	
-	public static void main(String[] args) {
-		Keyboard kb = new Keyboard();
-		try {
-			Thread.sleep(1000000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 }
