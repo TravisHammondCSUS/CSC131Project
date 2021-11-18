@@ -125,14 +125,6 @@ public class Client {
 			throw new IOException("INVALID REQUEST");
 		}
 	}
-	
-	public boolean disconnect() throws IOException {
-		// Need to adjust to send proper disconnect
-		out.println("disconnect");
-		out.flush();
-		
-		return in.readLine().equals("disconnected");
-	}
 
 	public int getPort() {
 		return port;
