@@ -81,7 +81,7 @@ public class Server {
         	}
     	}
     	
-    	World world = new World(map);
+    	World world = new World(map, 30 * 15, 5);
     	
     	for (int i = 0; i < 160; i++) {
     		if (!(60 < i && i < 100) && !(10 < i && i < 20) && !(130 < i && i < 150)) {

@@ -8,16 +8,30 @@ public class World {
 	private char[][] defaultMap, currentMap;
 	private int team1Score, team2Score;
 	private int worldBoundX, worldBoundY;
+	private int winner;
+	private int winnerPause;
+	private int winnerEndPause;
+	private int winningScore;
 	
 	public static final char BACKGROUND = '~';
 	
-	public World (char[][] map) {
+	public World (char[][] map, int winnerEndPause, int winningScore) {
+		this.winnerEndPause = winnerEndPause;
+		this.winningScore = winningScore;
 		defaultMap = map;
 		worldBoundX = defaultMap.length;
 		worldBoundY = defaultMap[0].length;
-		resetMap();
+		reset();
+	}
+	
+	public void reset() {
 		entities = new ArrayList<Entity>();
 		entityMap = new Entity[worldBoundX][worldBoundY];
+		winnerPause = 0;
+		winner = -1;
+		team1Score = 0;
+		team2Score = 0;
+		resetMap();
 	}
 	
 	public void resetMap() {
@@ -30,6 +44,14 @@ public class World {
 	}
 	
 	public void tick() {
+		if (checkWinner() != -1) {
+			++winnerPause;
+			if (winnerPause > winnerEndPause) {
+				reset();
+			}
+			return;
+		}
+		
 		for(int i = entities.size() - 1; i >= 0; i--) {
 			Entity entity = entities.get(i);
 			if (entity == null) {
@@ -42,6 +64,18 @@ public class World {
 				entity.onServerTick();
 				if (entity.needsDestroyed()) {
 					entities.remove(i);
+				} else if (entity.getEntityType().equals("BASE_CHARACTER") && ((BaseCharacter)entity).isDead()) {
+					if (entity.getTeam() == 0) {
+						++team2Score;
+					} else {
+						++team1Score;
+					}
+					if (team1Score >= winningScore) {
+						winner = 0;
+					} else if (team2Score >= winningScore) {
+						winner = 1;
+					}
+					((BaseCharacter)entity).setDead(false);
 				} else {
 					Point newPosition = entity.getPosition();
 					newPosition = new Point(newPosition.x, newPosition.y);
@@ -93,8 +127,8 @@ public class World {
 		}
 	}
 
-	public int checkWon() {
-		return 0;
+	public int checkWinner() {
+		return winner;
 	}
 	
 	public char[][] getCurrentMap() {
@@ -106,6 +140,26 @@ public class World {
 		entities.add(entity);
 		entityMap[position.x][position.y] = entity;
 		currentMap[position.x][position.y] = entity.getSymbol();
+	}
+
+	public int getTeam1Score() {
+		return team1Score;
+	}
+
+	public void setTeam1Score(int team1Score) {
+		this.team1Score = team1Score;
+	}
+
+	public int getTeam2Score() {
+		return team2Score;
+	}
+
+	public void setTeam2Score(int team2Score) {
+		this.team2Score = team2Score;
+	}
+	
+	public int getWinningScore() {
+		return winningScore;
 	}
 }
 

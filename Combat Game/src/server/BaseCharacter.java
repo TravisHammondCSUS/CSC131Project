@@ -5,6 +5,7 @@ public class BaseCharacter extends Entity {
 	private int attackSpeed, attackRate, dx, dy, ticksPerMovement;
 	private double health, maxHealth, defense, attackDmg, attackDistance;
 	private Point spawn;
+	private boolean destroy, died;
 	
 	public BaseCharacter(char symbol, Point position, int ticksPerMovement, int team, double health, double defense, double attackDmg, int attackRate, int attackSpeed, double attackDistance) {
 		super(symbol, position, team);
@@ -17,15 +18,18 @@ public class BaseCharacter extends Entity {
 		this.attackRate = attackRate;
 		this.attackDistance = attackDistance;
 		this.attackSpeed = attackSpeed;
+		destroy = false;
+		died = false;
 		dx = 0;
 		dy = 0;
 	}
 	
 	@Override
 	public void onServerTick() {
-		if (health < 0) {
+		if (health <= 0) {
 			setPosition(spawn.x, spawn.y);
 			health = maxHealth;
+			died = true;
 		}
 		if (ticks % ticksPerMovement == 0) {
 			move();
@@ -35,7 +39,6 @@ public class BaseCharacter extends Entity {
 	
 	@Override
 	public boolean handleCollision(Entity entity){
-		System.out.println(entity.getEntityType());
 		switch (entity.getEntityType()) {
 			case "BASE_CHARACTER":
 				return true;
@@ -44,7 +47,6 @@ public class BaseCharacter extends Entity {
 					Projectile proj = (Projectile) entity;
 					if (proj.getDistance() > 0) {
 						double damageTaken = proj.getDamage() - defense;
-						System.out.println("" + damageTaken);
 						if (damageTaken > 0) {
 							setHealth(getHealth() - damageTaken);
 						}
@@ -99,4 +101,21 @@ public class BaseCharacter extends Entity {
         this.position.translate(dx, dy);
         return this.position;
     }
+    
+    public void destroy() {
+    	destroy = true;
+    }
+    
+	@Override
+    public boolean needsDestroyed() {
+		return destroy;
+	}
+
+	public boolean isDead() {
+		return died;
+	}
+
+	public void setDead(boolean died) {
+		this.died = died;
+	}
 }

@@ -12,11 +12,18 @@ public class Character {
     private final char ATTACK_BACKWARD_KEY = 'd';
     private final char ATTACK_RIGHTWARD_KEY = 'r';
     private final char ATTACK_LEFTWARD_KEY = 'l';
-	private final int TICKS_PER_MOVEMENT = 5;
 	private int team;
+	private String character;
 	
 	public Character(int team) {
 		this.team = team;
+		keyboard = new Keyboard();
+		setCharacter("");
+	}
+	
+	public Character(int team, String character) {
+		this.team = team;
+		this.setCharacter(character);
 		keyboard = new Keyboard();
 	}
 	
@@ -68,5 +75,13 @@ public class Character {
 			return new Point(dx, dy);
 		else
 			return new Point(-dx, dy);
+	}
+
+	public String getCharacter() {
+		return character;
+	}
+
+	public void setCharacter(String character) {
+		this.character = character;
 	}
 }

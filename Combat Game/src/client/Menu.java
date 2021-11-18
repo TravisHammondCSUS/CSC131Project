@@ -2,13 +2,13 @@ package client;
 
 import java.util.*;
 public class Menu {
-
+	private static Scanner kb = new Scanner(System.in);
+	
    public Menu() {
    
    }
    
    public int handleMainMenu() {
-      Scanner kb = new Scanner(System.in);
       System.out.println("-------------------------------");
       System.out.println("|    Welcome To Our Game!!    |");
       System.out.println("-------------------------------\n");
@@ -25,7 +25,6 @@ public class Menu {
             System.out.println("\nInvalid Selection Please Try Again.\n");
          }
       }
-      kb.close();
       if(choice == 1){
          return 1;
       }
@@ -36,7 +35,6 @@ public class Menu {
    }
    
    public int handleTeamMenu(){
-      Scanner kb = new Scanner(System.in);
       System.out.println("Choose your Team:");
       System.out.println("(1) Team 1");
       System.out.println("(2) Team 2");
@@ -52,18 +50,16 @@ public class Menu {
             System.out.println("\nInvalid Selection Please Try Again.\n");
          }
       }
-      kb.close();
       if(choice == 1){
-         return 1;
+         return 0;
       }
       else if(choice == 2){
-         return 2;
+         return 1;
       }
-      return 0;
+      return -1;
    }
    
    public String handleCharactersMenu(){
-      Scanner kb = new Scanner(System.in);
       System.out.println("Choose your character:");
       System.out.println("Archer");
       System.out.println("Mage");
@@ -82,7 +78,6 @@ public class Menu {
          c = kb.next();
          System.out.println();
       }
-      kb.close();
       return c.toUpperCase();
    } 
 }

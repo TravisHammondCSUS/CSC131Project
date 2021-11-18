@@ -50,7 +50,13 @@ public class Client {
 		out.flush();
 
 		String response = in.readLine();
+		if (response.equals("INVALID REQUEST")) {
+			throw new IOException("INVALID REQUEST");
+		}
 		response = in.readLine();
+		if (response.equals("INVALID REQUEST")) {
+			throw new IOException("INVALID REQUEST");
+		}
 		response = in.readLine();
 		if (response.equals("INVALID REQUEST")) {
 			throw new IOException("INVALID REQUEST");
@@ -78,6 +84,36 @@ public class Client {
 		if (response.equals("INVALID REQUEST")) {
 			throw new IOException("INVALID REQUEST");
 		}
+	}
+	
+	public int requestWinner() throws IOException {
+		out.println("WINNER");
+		out.flush();
+
+		String response = in.readLine();
+		if (response.equals("INVALID REQUEST")) {
+			throw new IOException("INVALID REQUEST");
+		}
+		Scanner scanner = new Scanner(response);
+		int winner = scanner.nextInt();
+		scanner.close();
+		return winner;
+	}
+	
+	public int[] requestScores() throws IOException {
+		out.println("SCORES");
+		out.flush();
+		
+		String response = in.readLine();
+		if (response.equals("INVALID REQUEST")) {
+			throw new IOException("INVALID REQUEST");
+		}
+		Scanner scanner = new Scanner(response);
+		int team1 = scanner.nextInt();
+		int team2 = scanner.nextInt();
+		int winningScore = scanner.nextInt();
+		scanner.close();
+		return new int[] {team1, team2, winningScore};
 	}
 
 	public void requestTeam(int team) throws IOException {

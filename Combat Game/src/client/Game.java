@@ -37,8 +37,6 @@ public class Game {
 		}
 		menu = new Menu();
 		character = new Character(-1);
-		setCurrentMap(client.requestMap());
-		client.requestCharacter("BASE");
 	}
 	
 	public static Game getInstance(String ipAddress, int port) throws IOException {
@@ -49,15 +47,15 @@ public class Game {
 	}
 	
 	public void run() throws IOException, InterruptedException {
-		int input = menu.handleMainMenu();		// <-- this works even though handleMainMenu() and handleTeamMenu() have the same approach to get the input
+		int input = menu.handleMainMenu();
 		if (input == 1) {
-			
-			//int inputTeam = menu.handleTeamMenu();	// <-- Crash here, if you try to swap handleMainMenu() and handleTeamMenu(), the function which runs before will work, the other will crash
-			//client.requestTeam(inputTeam);
-			//character.setTeam(inputTeam);
-			
-			//String inputCharacter = menu.handleCharactersMenu();	// <-- The same problem here
-			//client.requestCharacter(inputCharacter);
+			int inputTeam = menu.handleTeamMenu();
+			String inputCharacter = menu.handleCharactersMenu();
+			client.requestCharacter(inputCharacter);
+			client.requestTeam(inputTeam);
+			character.setTeam(inputTeam + 1);
+			character.setCharacter(inputCharacter);
+			setCurrentMap(client.requestMap());
 			
 			gameLoop();
 		}
@@ -85,8 +83,33 @@ public class Game {
 					attack.x, attack.y
 					
 			));
-			Graphics.updateConsole(currentMap, "FPS: " + currentFPS, "");
-			
+			int[] scores = client.requestScores();
+			if (character.getTeam() == 2) {
+				int temp = scores[0];
+				scores[0] = scores[1];
+				scores[1] = temp;
+			}
+			int winner = client.requestWinner();
+			if (winner == -1) {
+				Graphics.updateConsole(
+						currentMap,
+						"FPS: " + currentFPS + " - Character: " + character.getCharacter() +
+						" - Team: " + character.getTeam(), "Team Score: " + scores[0] +
+						"/" + scores[2] + " - Enemey Score: " + scores[1] + "/" + scores[2]);
+			} else {
+				if (character.getTeam() - 1 == winner) {
+					Graphics.updateConsole(
+							currentMap,
+							"FPS: " + currentFPS + " - Character: " + character.getCharacter() +
+							" - Team: " + character.getTeam(), "YOUR TEAM WON!!!");
+				} else {
+					Graphics.updateConsole(
+							currentMap,
+							"FPS: " + currentFPS + " - Character: " + character.getCharacter() +
+							" - Team: " + character.getTeam(), "YOUR TEAM LOST!!!");
+				}
+			}
+
 			// FPS Capping
 			long totalTime = System.nanoTime() - startTime;
 			if(totalTime < targetTime) {
