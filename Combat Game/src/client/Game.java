@@ -2,6 +2,7 @@ package client;
 
 import java.awt.Point;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class Game {
 	private static Game instance;
@@ -48,12 +49,20 @@ public class Game {
 	}
 	
 	public void run() throws IOException, InterruptedException {
-		int input = menu.handleMainMenu();
+		int input = menu.handleMainMenu();		// <-- this works even though handleMainMenu() and handleTeamMenu() have the same approach to get the input
 		if (input == 1) {
-			client.requestTeam(1);
-			character.setTeam(1);
-			client.requestCharacter("BASECHARACTER");
+			
+			//int inputTeam = menu.handleTeamMenu();	// <-- Crash here, if you try to swap handleMainMenu() and handleTeamMenu(), the function which runs before will work, the other will crash
+			//client.requestTeam(inputTeam);
+			//character.setTeam(inputTeam);
+			
+			//String inputCharacter = menu.handleCharactersMenu();	// <-- The same problem here
+			//client.requestCharacter(inputCharacter);
+			
 			gameLoop();
+		}
+		if (input == 2) {
+			quit();
 		}
 	}
 	
