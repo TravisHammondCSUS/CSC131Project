@@ -52,6 +52,7 @@ public class Game {
 		if (input == 1) {
 			client.requestTeam(1);
 			character.setTeam(1);
+			client.requestCharacter("BASECHARACTER");
 			gameLoop();
 		}
 	}
