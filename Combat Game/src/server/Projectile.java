@@ -5,14 +5,11 @@ import java.awt.Point;
 public class Projectile extends Entity{
 	private double distance;
 	private double damage;
-	private int team;
 	private int ticksPerMovement;
 	private int dx, dy;
-	private long ticks;
 
 	public Projectile(char symbol, Point position, int team, double distance, double damage, int ticksPerMovement, int dx, int dy) {
-		super(symbol, position);
-		this.team = team;
+		super(symbol, position, team);
 		this.distance = distance;
 		this.damage = damage;
 		this.ticksPerMovement = ticksPerMovement;
@@ -33,6 +30,7 @@ public class Projectile extends Entity{
 	public boolean handleCollision(Entity entity){
 		switch (entity.getEntityType()) {
 			case "BASE_CHARACTER":
+				entity.handleCollision(this);
 				distance = 0;
 				return true;
 			case "PROJECTILE":
@@ -45,9 +43,6 @@ public class Projectile extends Entity{
 		}
 	}
 
-	public int getTeam(){
-		return this.team;
-	}
 	public double getDistance(){
 		return this.distance;
 	}

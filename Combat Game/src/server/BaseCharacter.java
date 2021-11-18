@@ -2,14 +2,14 @@ package server;
 
 import java.awt.Point;
 public class BaseCharacter extends Entity {
-	private int team, attackSpeed, attackRate, dx, dy, ticksPerMovement;
-	private long ticks;
+	private int attackSpeed, attackRate, dx, dy, ticksPerMovement;
 	private double health, maxHealth, defense, attackDmg, attackDistance;
+	private Point spawn;
 	
 	public BaseCharacter(char symbol, Point position, int ticksPerMovement, int team, double health, double defense, double attackDmg, int attackRate, int attackSpeed, double attackDistance) {
-		super(symbol, position);
+		super(symbol, position, team);
+		spawn = new Point(position.x, position.y);
 		this.ticksPerMovement = ticksPerMovement;
-		this.team = team;
 		this.health = health;
 		this.maxHealth = health;
 		this.defense = defense;
@@ -24,7 +24,7 @@ public class BaseCharacter extends Entity {
 	@Override
 	public void onServerTick() {
 		if (health < 0) {
-			setPosition(0, 0);
+			setPosition(spawn.x, spawn.y);
 			health = maxHealth;
 		}
 		if (ticks % ticksPerMovement == 0) {
@@ -40,10 +40,15 @@ public class BaseCharacter extends Entity {
 			case "BASE_CHARACTER":
 				return true;
 			case "PROJECTILE":
-				double damageTaken = ((Projectile) entity).getDamage() - defense;
-				System.out.println("" + damageTaken);
-				if (damageTaken > 0) {
-					setHealth(getHealth() - damageTaken);
+				if (entity.getTeam() != team) {
+					Projectile proj = (Projectile) entity;
+					if (proj.getDistance() > 0) {
+						double damageTaken = proj.getDamage() - defense;
+						System.out.println("" + damageTaken);
+						if (damageTaken > 0) {
+							setHealth(getHealth() - damageTaken);
+						}
+					}
 				}
 				return false;
 			case "BARRIER":
@@ -67,14 +72,6 @@ public class BaseCharacter extends Entity {
 	@Override
 	public String getEntityType() {
 		return "BASE_CHARACTER";
-	}
-
-	public int getTeam() {
-		return team;
-	}
-
-	public void setTeam(int team) {
-		this.team = team;
 	}
 
 	public double getHealth() {

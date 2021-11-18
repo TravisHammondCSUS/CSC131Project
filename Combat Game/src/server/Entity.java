@@ -5,14 +5,23 @@ import java.awt.Point;
 public class Entity {
     protected char symbol;
     protected Point position;
+    protected int team;
+	protected long ticks;
 
     public Entity(char symbol, Point position){
         this.symbol = symbol;
         this.position = position;
+        team = -1;
     }
 
+    public Entity(char symbol, Point position, int team){
+        this.symbol = symbol;
+        this.position = position;
+        this.team = team;
+    }
+    
 	public void onServerTick() {
-		// Does nothing for Entity
+		++ticks;
 	}
     
     public char getSymbol(){
@@ -49,5 +58,13 @@ public class Entity {
 	
 	public boolean needsDestroyed() {
 		return false;
+	}
+	
+	public int getTeam() {
+		return team;
+	}
+
+	public void setTeam(int team) {
+		this.team = team;
 	}
 }
