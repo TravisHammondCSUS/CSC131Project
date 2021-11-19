@@ -1,6 +1,8 @@
 package server;
 
-public class Mage {
+import java.awt.Point;
+
+public class Mage extends BaseCharacter {
 
 	/*
 
@@ -13,8 +15,10 @@ public class Mage {
 	Defense: Zero
 	Skin: M
 
-	(Don't make attack speed faster than 4 per second)
-
 	*/
 	
+	public Mage(Point position, int team) {
+		// need to adjust values
+		super('M', position, 4, team, 10, 1, 2, 10, 5, 10);
+	}
 }

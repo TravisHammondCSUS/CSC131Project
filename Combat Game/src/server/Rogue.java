@@ -1,6 +1,8 @@
 package server;
 
-public class Rogue {
+import java.awt.Point;
+
+public class Rogue extends BaseCharacter {
 
 	/*
 
@@ -13,8 +15,10 @@ public class Rogue {
 	Defense: Low Defense
 	Skin: R
 
-	(Don't make attack speed faster than 4 per second)
-
 	*/
 	
+	public Rogue(Point position, int team) {
+		// need to adjust values
+		super('R', position, 4, team, 10, 1, 2, 10, 5, 10);
+	}
 }

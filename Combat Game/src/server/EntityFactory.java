@@ -31,4 +31,18 @@ public class EntityFactory {
         }
     };
     
+    public Entity create(String entityType, Point position, int team) {
+        if(entityType.equals("ARCHER")) {
+        	return new Archer(position, team);
+        } else if(entityType.equals("MAGE")) {
+        	return new Mage(position, team);
+        } else if(entityType.equals("ROGUE")) {
+        	return new Rogue(position, team);
+        } else if(entityType.equals("WARRIOR")) {
+        	return new Warrior(position, team);
+        } else {
+            return null;
+        }
+    }
+    
 }

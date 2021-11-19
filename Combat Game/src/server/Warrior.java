@@ -1,6 +1,8 @@
 package server;
 
-public class Warrior {
+import java.awt.Point;
+
+public class Warrior extends BaseCharacter {
 
 	/*
 
@@ -13,8 +15,10 @@ public class Warrior {
 	Defense: High Defense
 	Skin: W
 
-	(Don't make attack speed faster than 4 per second)
-
 	*/
 	
+	public Warrior(Point position, int team) {
+		// need to adjust values
+		super('W', position, 4, team, 10, 1, 2, 10, 5, 10);
+	}
 }

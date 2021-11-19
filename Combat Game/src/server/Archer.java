@@ -1,6 +1,8 @@
 package server;
 
-public class Archer {
+import java.awt.Point;
+
+public class Archer extends BaseCharacter {
 	
 	/*
 
@@ -13,8 +15,10 @@ public class Archer {
 	Defense: Zero
 	Skin: A
 
-	(Don't make attack speed faster than 4 per second)
-
 	*/
 	
+	public Archer(Point position, int team) {
+		// need to adjust values
+		super('A', position, 4, team, 10, 1, 2, 10, 5, 10);
+	}
 }
