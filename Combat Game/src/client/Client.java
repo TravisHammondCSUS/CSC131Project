@@ -33,7 +33,7 @@ public class Client {
 		int height = scanner.nextInt();
 		int width = scanner.nextInt();
 		char[][] map = new char[height][width];
-		String mapStr = scanner.nextLine().strip();
+		String mapStr = scanner.nextLine().trim();
 		scanner.close();
 
 		for (int i = 0; i < height; i++) {
@@ -65,7 +65,7 @@ public class Client {
 		int height = scanner.nextInt();
 		int width = scanner.nextInt();
 		char[][] map = new char[height][width];
-		String mapStr = scanner.nextLine().strip();
+		String mapStr = scanner.nextLine().trim();
 		scanner.close();
 
 		for (int i = 0; i < height; i++) {
