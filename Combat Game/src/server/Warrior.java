@@ -8,17 +8,19 @@ public class Warrior extends BaseCharacter {
 
 	Warrior: 
 	
-	Attack Damage: Low Attack damage
-	Attack Rate: Slow attack speed
-	Attack Distance: Melee range 
-	Health: High health
-	Defense: High Defense
 	Skin: W
+	Movement Speed: 7
+	Health: 10
+	Defense: 8
+	Attack Damage: 3
+	Attack Rate: 5
+	Attack Speed: 5
+	Attack Distance: 3
 
 	*/
 	
 	public Warrior(Point position, int team) {
 		// need to adjust values
-		super('W', position, 4, team, 10, 1, 2, 10, 5, 10);
+		super('W', position, 6, team, 10, 8, 3, 5, 5, 3);
 	}
 }
