@@ -81,7 +81,6 @@ public class Game {
 			setCurrentMap(client.requestMapMoveAttack(
 					movement.x, movement.y,
 					attack.x, attack.y
-					
 			));
 			int[] scores = client.requestScores();
 			if (character.getTeam() == 2) {
@@ -90,25 +89,21 @@ public class Game {
 				scores[1] = temp;
 			}
 			int winner = client.requestWinner();
+			String row2 = "";
 			if (winner == -1) {
-				Graphics.updateConsole(
-						currentMap,
-						"FPS: " + currentFPS + " - Character: " + character.getCharacter() +
-						" - Team: " + character.getTeam(), "Team Score: " + scores[0] +
-						"/" + scores[2] + " - Enemey Score: " + scores[1] + "/" + scores[2]);
+				row2 = "Team Score: " + scores[0] + "/" + scores[2] + " - Enemey Score: " +
+						scores[1] + "/" + scores[2];
 			} else {
 				if (character.getTeam() - 1 == winner) {
-					Graphics.updateConsole(
-							currentMap,
-							"FPS: " + currentFPS + " - Character: " + character.getCharacter() +
-							" - Team: " + character.getTeam(), "YOUR TEAM WON!!!");
+					row2 = "YOUR TEAM WON!!!";
 				} else {
-					Graphics.updateConsole(
-							currentMap,
-							"FPS: " + currentFPS + " - Character: " + character.getCharacter() +
-							" - Team: " + character.getTeam(), "YOUR TEAM LOST!!!");
+					row2 = "YOUR TEAM LOST!!!";
 				}
 			}
+			Graphics.updateConsole(
+					currentMap,
+					"FPS: " + currentFPS + " - Character: " + character.getCharacter() +
+					" - Team: " + character.getTeam(), row2);
 
 			// FPS Capping
 			long totalTime = System.nanoTime() - startTime;
@@ -116,7 +111,6 @@ public class Game {
 				try {
 					Thread.sleep((targetTime - totalTime) / 1000000);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
