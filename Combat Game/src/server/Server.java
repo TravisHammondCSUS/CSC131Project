@@ -7,12 +7,14 @@ import java.net.*;
 public class Server {
 	private ServerSocket serverSocket;
 	private World world;
+	private boolean stop;
 	
 	public Server(World world, int port) throws IOException {
 		this.world = world;
 		
 		serverSocket = new ServerSocket(port);
 		serverSocket.setReuseAddress(true);
+		stop = false;
 	}
 	
 	private static class Ticker implements Runnable {
@@ -50,7 +52,7 @@ public class Server {
 		new Thread(new Ticker(world)).start();
 		
 		try {
-			while (true) {
+			while (!stop) {
 				Socket client = serverSocket.accept();
 				new Thread(new ClientHandler(client, world)).start();
 			}
@@ -113,5 +115,9 @@ public class Server {
     	
 		Server server = new Server(world, 1234);
 		server.start();
+	}
+
+	public void setStop(boolean stop) {
+		this.stop = stop;
 	}
 }

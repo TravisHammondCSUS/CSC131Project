@@ -65,7 +65,8 @@ public class Game {
 	}
 	
 	public void gameLoop() throws IOException, InterruptedException {
-		while(true) {
+		//while(true) {
+		for(int x = 0; x < 100; x++) {
 			long startTime = System.nanoTime();	
 			
 			//FPS Counter

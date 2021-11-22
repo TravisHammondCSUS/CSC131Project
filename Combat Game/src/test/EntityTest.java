@@ -8,10 +8,10 @@ import server.Entity;
 
 
 
-class EntityTest {
+public class EntityTest {
 
 	@Test
-	void test() {
+	public void test() {
 		Entity test = new Entity('f', new Point(1,1));
 		Entity dummy = new Entity('d', new Point(0,0));
 		test.move(1, 1);
