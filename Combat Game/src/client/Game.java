@@ -65,8 +65,8 @@ public class Game {
 	}
 	
 	public void gameLoop() throws IOException, InterruptedException {
-		//while(true) {
-		for(int x = 0; x < 100; x++) {
+		while(true) {
+		// for testing for(int x = 0; x < 100; x++) {
 			long startTime = System.nanoTime();	
 			
 			//FPS Counter
@@ -134,7 +134,7 @@ public class Game {
 	}
 	
 	public static void main(String[] arg) throws IOException {
-		Game game = Game.getInstance("localhost", 1234);
+		Game game = Game.getInstance("localhost", 5000);
 		try {
 			game.run();
 		} catch (IOException | InterruptedException e) {

@@ -113,7 +113,7 @@ public class Server {
     	}
     	
     	
-		Server server = new Server(world, 1234);
+		Server server = new Server(world, 5000);
 		server.start();
 	}
 
